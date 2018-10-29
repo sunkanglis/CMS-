@@ -1,0 +1,92 @@
+
+<div class="box merchant-list">
+    <div class="box-header with-border">
+      <h3 class="box-title">
+        <button id="addbtn" class="btn btn-block btn-success"><span class="fa fa-plus-circle"></span> 添加</button>
+      </h3>
+      <div class="box-tools">
+        <div class="input-group input-group-sm" style="width: 150px;">
+          <input type="text" id="keywords" value="" name="pos_search" class="form-control pull-right" placeholder="搜索">
+  
+          <div class="input-group-btn">
+            <button type="button" id="possearch" class="btn btn-default"><i class="fa fa-search"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.box-header -->
+    {{ if data.items.length > 0 }}
+    <div class="box-body">
+      <table class="table table-bordered merchant-list__tabel">
+        <tr>
+          <th style="width: 10px">#</th>
+          <th>商家Logo</th>
+          <th>商家名称</th>
+          <th>商家地址</th>
+          <th>商家电话</th>
+          <th>入驻饿了么时间</th>
+          <th>营业时间</th>
+          <th style="width: 140px">操作</th>
+        </tr>
+        {{ each data.items}}
+        <tr data-id="{{ $value._id }}">
+          <td>{{$index + 1 }}</td>
+          <td><img width="50" height="50" src="http://localhost:3000{{$value.merchantLogo}}"
+              alt=""></td>
+          <td>{{$value.merchantName}}</td>
+          <td>{{$value.merchantAddress}}</td>
+          <td>{{$value.merchantTel}}</td>
+          <td>{{$value.settledTime}}</td>
+          <td>{{$value.openTime}}</td>
+          <td>
+            <button class="btn btn-sm btn-primary pos-update" posid="" pageno="" keywords="" style="margin-bottom:5px;"><span class="fa fa-edit"></span>
+              修改</button>
+            <button class="btn btn-sm btn-danger pos-remove" posid="" pageno="" pagecount="" pagesize="" keywords=""
+              filename=""><span class="fa fa-remove" style="margin-right:2px"></span> 删除</button>
+          </td>
+        </tr>
+        {{/each}}
+        <!-- <tr>
+          <td colspan="8"> 暂无数据. </td>
+        </tr> -->
+      </table>
+    </div>
+    <div class="box-footer clearfix">
+      {{ if data.pageInfo.search != ''}}
+      <button type="button" id="back" class="btn btn-default">返回全部</button>
+      {{/if}}
+      <ul class="pagination pagination-sm no-margin pull-right">
+        <li>
+          <a href="#/merchant-list?pageNo=<%= (data.pageInfo.pageNo>1)?data.pageInfo.pageNo-1:data.pageInfo.pageNo%>&search=<%=data.pageInfo.search%>&search=<%=data.pageInfo.search%>">&laquo;</a>
+        </li>
+        <% for(var i = 1; i <= data.pageInfo.totalPage; i++){ %>
+        <li class="{{if data.pageInfo.pageNo == i}}active{{/if}}" >
+          <a href="#/merchant-list?pageNo=<%= i%>&search=<%=data.pageInfo.search%>"> <%= i %></a>
+        </li>
+        <% } %>
+        <li>
+          <a href="#/merchant-list?pageNo=<%= (data.pageInfo.pageNo<data.pageInfo.totalPage)? ~~data.pageInfo.pageNo+1 :data.pageInfo.totalPage %>&search=<%=data.pageInfo.search%>">&raquo;</a>
+        </li>
+      </ul>
+    </div>
+    {{ else }}
+    <div class="box box-default">
+        <div class="box-header with-border">
+          <!-- <h3 class="box-title">Blank Box</h3> -->
+        </div>
+        <div class="box-body">
+          {{ if data.pageInfo.search == ''}} 
+            当前没有商家信息，快去添加吧...
+          {{else}}
+            没有该商家信息...
+            <button type="button" id="back" class="btn btn-default  pull-right">返回列表</button>
+          {{/if}}
+        </div>
+        <!-- /.box-body -->
+        
+      </div>
+    {{ /if }}
+     
+    
+  </div>
+  <!-- /.box -->
