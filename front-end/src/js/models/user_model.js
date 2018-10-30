@@ -1,9 +1,11 @@
 
 
+
 //判断是否用用户登录
-const isSignIn = ()=>{
+const isSignIn = (data)=>{
     return $.ajax({
         url:'/api/v1/user/isSignIn',
+        data,
         success :(results)=>{
             return results;
         }
@@ -11,9 +13,10 @@ const isSignIn = ()=>{
 }
 
 //返回用户信息
-const info = ()=>{
+const info = (data)=>{
     return $.ajax({
         url:'/api/v1/user/info',
+        data,
         success: results => results
     })
 }
@@ -26,10 +29,13 @@ const exit = ()=>{
     })
 }
 
-const allow = (data)=>{
+const allow = (auth)=>{
     return $.ajax({
         url:'/api/v1/user/check',
-        data,
+        data:{
+            auth,
+            token: localStorage.getItem('token') || ''
+        },
         success: results => results
     })
 }

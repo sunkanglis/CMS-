@@ -6,7 +6,8 @@ import user_model from '../models/user_model'
 // 返回用户登录状态
 const userSigninState =async () => {
     // return !!URL.parse(window.location.href, true).query.ok
-    let _isSignIn = await user_model.isSignIn();
+    let _token = localStorage.getItem('token')|| '';
+    let _isSignIn = await user_model.isSignIn({token:_token});
     return !!(_isSignIn.status === 200);
     
 }

@@ -20,13 +20,13 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-// 使用session中间件
-app.use(session({
-  secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { httpOnly: false, secure: false, maxAge: 1000 * 60 * 5 }
-}))
+// // 使用session中间件
+// app.use(session({
+//   secret: 'keyboard cat',
+//   resave: false,
+//   saveUninitialized: true,
+//   cookie: { httpOnly: false, secure: false, maxAge: 1000 * 60 * 5 }
+// }))
 
 // 使用各种中间件
 app.use(logger('dev'));

@@ -17,12 +17,12 @@ const bindLoginEvent=()=>{
         // $.cookie('connect.sid', { expires: -1 });
         let str = $(this).serialize();
         let data = qs.parse($(this).serialize());
-        let results = await admin_model.login(data);
-        switch ( results.status ) {
+        let _result = await admin_model.login(data);
+        switch ( _result.status ) {
             case 203: toast('密码错误','error'); break;
             case 202:  toast('用户不存在','error'); break;
             default: 
-               
+                localStorage.token = _result.data.token
                 window.location.href = "/"; 
             break;
         }

@@ -16,7 +16,21 @@ const map = async (req,res)=>{
         res.render(not_allow_template)
         return false;
     }
+
     res.render(map_template);
+    
+    var map = new BMap.Map('allmap');
+	map.centerAndZoom(new BMap.Point(116.370154, 40.037302), 12);
+	map.enableScrollWheelZoom(true);
+	// 覆盖区域图层测试
+	map.addTileLayer(new BMap.PanoramaCoverageLayer());
+
+	var stCtrl = new BMap.PanoramaControl(); //构造全景控件
+	stCtrl.setOffset(new BMap.Size(20, 20));
+	map.addControl(stCtrl);//添加全景控件
+    
+    
+
 }
 export default{
     map
