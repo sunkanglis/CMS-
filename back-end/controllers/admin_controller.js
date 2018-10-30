@@ -6,11 +6,15 @@ const login = async (req, res, next) => {
     let _judge_result = await admin_model.judgeUserByUsername(req.body.username);
     if ( !!_judge_result.length ) { // 如果有这个用户
         // 登录
-        let _data = await admin_model.login(req.body.password, _judge_result[0])
+        let _data = await admin_model.login(req.body.password, _judge_result[0]); //是一个布尔值
         // 如果前端利用完整的表单提交逻辑的话，可以利用res.redirect告知浏览器进行跳转
         // res.redirect('/')
-        console.log(_data);
         if (_data) {
+            // 登录成功后，保存session,注意在这里存的东西不是为了给前端用的， 1.用来验证 2. 存储一些用户信息做其他判断
+            req.session.userinfo = {
+                userid : _judge_result[0]._id,
+                level : _judge_result[0].level || 10
+            }
             res.render('admin', { code: 200, data: JSON.stringify('success') })
         } else {
             res.render('admin', { code: 203, data: JSON.stringify('密码错误') })

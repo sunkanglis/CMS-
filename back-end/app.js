@@ -4,9 +4,12 @@ var path = require('path');
 var cookieParser = require('cookie-parser'); //解析cookie
 var logger = require('morgan');
 
+var session = require('express-session');
+
 var indexRouter = require('./routes/index');
 var merchantRouter = require('./routes/merchant');
-var adminRouter = require('./routes/admin')
+var adminRouter = require('./routes/admin');
+var userRouter = require('./routes/user')
 
 var { version } = require('./config')
 
@@ -17,6 +20,15 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+// 使用session中间件
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { httpOnly: false, secure: false, maxAge: 1000 * 60 * 5 }
+}))
+
+// 使用各种中间件
 app.use(logger('dev'));
 //body-parser 处理form-data和request payload数据
 // express 4.X 内部集成了body-parser
@@ -30,6 +42,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/api/'+ version +'/merchant', merchantRouter);
 app.use('/api/'+ version +'/admin', adminRouter);
+app.use('/api/'+ version +'/user', userRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

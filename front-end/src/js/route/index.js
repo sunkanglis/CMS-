@@ -2,7 +2,7 @@
 import SMERouter from 'sme-router';
 import bus from '../util/bus'
 
-import home_template from '../views/home.html' ;
+import home_controller from '../controllers/home' ;
 import not_found_template from '../views/404Error.html';
 import merchant_controller from '../controllers/merchant';
 import map_controller from '../controllers/map';
@@ -18,15 +18,13 @@ const _init = () =>{
     })
 
     // router.route('/',renderPageHeader);
-    router.route('/',page_header_controller.render)
-    router.route('/home',(req,res,next) =>{
-        res.render(home_template);
-    })
+    router.route('/',page_header_controller.render);
+    router.route('/home',home_controller.render);
 
     router.route('/merchant-list',merchant_controller.list);
     router.route('/merchant-save',merchant_controller.save);
     router.route('/merchant-update',merchant_controller.update);
-    router.route('/map', map_controller.map)
+    router.route('/map', map_controller.map);
 
     router.route('/not-found',(req,res,next) =>{
         res.render(not_found_template);

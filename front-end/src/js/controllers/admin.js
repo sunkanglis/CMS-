@@ -14,10 +14,18 @@ const login=(req,res,next)=>{
 const bindLoginEvent=()=>{
     $('#login').submit(async function(e){
         e.preventDefault();
+        // $.cookie('connect.sid', { expires: -1 });
         let str = $(this).serialize();
         let data = qs.parse($(this).serialize());
         let results = await admin_model.login(data);
-        console.log(results);
+        switch ( results.status ) {
+            case 203: toast('密码错误','error'); break;
+            case 202:  toast('用户不存在','error'); break;
+            default: 
+               
+                window.location.href = "/"; 
+            break;
+        }
         
     })
 }
